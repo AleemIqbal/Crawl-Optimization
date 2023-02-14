@@ -1,0 +1,168 @@
+textarea#robotstxt {
+  width: 100%;
+  height: 300px;
+}
+textarea#htaccess_content {
+  width: 100%;
+  height: 300px;
+}
+.custom-seo-settings-box:last-child p.submit input {
+  font-size: 16px;
+  padding: 12px 30px;
+  line-height: 1;
+}
+.custom-seo-settings-box.sticky-textarea.fixed textarea#robotstxt {
+  position: fixed;
+  right: 10px;
+  width: 21vw;
+  height: calc(100vh - 80px);
+  top: 70px;
+}
+.custom-seo-settings-box.sticky-textarea.fixed textarea#htaccess_content {
+  position: fixed;
+  right: 10px;
+  width: 21vw;
+  height: calc(100vh - 80px);
+  top: 70px;
+}
+.custom-seo-settings {
+  width: calc(68vw - 140px);
+  margin: 40px auto;
+  background: #fff;
+  box-shadow: 0 0 8px 0px #dedede;
+  padding: 20px 20px;
+  border-radius: 10px;
+}
+.custom-seo-settings h1 {
+  font-size: 30px;
+  margin-bottom: 30px;
+}
+.custom-seo-settings-box:not(:last-child) {
+  border-bottom: 1px solid #b7b7b7;
+  margin-bottom: 50px;
+  padding-bottom: 30px;
+  display: flex;
+  gap: 30px;
+}
+.custom-seo-settings-box:not(:last-child) .custom-seo-settings-box__column:first-child {
+  width: 30%;
+  border-right: 1px solid #b7b7b7;
+}
+.custom-seo-settings-box:not(:last-child) .custom-seo-settings-box__column:last-child {
+  width: 70%;
+}
+.custom-seo-settings .form-table th {
+  display: block;
+  flex: 1;
+}
+.custom-seo-settings-box:not(:last-child) .custom-seo-settings-box__column:first-child h3 {
+  font-size: 18px;
+}
+.custom-seo-settings-box:not(:last-child) .custom-seo-settings-box__column:first-child p {
+  color: #797979;
+  padding-right: 20px;
+}
+.custom-seo-settings-box:not(:last-child) .custom-seo-settings-box__column:last-child p:first-child {
+  color: #828282;
+  font-weight: 400;
+}
+.custom-seo-settings-box:last-child p.submit {
+  text-align: right;
+}
+.custom-seo-settings-box:last-child p.submit input#submit {
+  font-size: 16px;
+  padding: 12px 30px;
+  line-height: 1;
+}
+.custom-seo-settings .form-table th input#ultimatecrawloptimizer_allowed_url_params {
+  font-weight: 400;
+  color: #676767;
+}
+.custom-seo-settings .form-table td:nth-child(2) {
+  text-align: right;
+}
+.custom-seo-settings .form-table input[type="checkbox"] {
+  border: 1px solid #696969;
+  width: 45px;
+  height: 23px;
+  border-radius: 50px;
+  position: relative;
+  background: #b2b2b2;
+}
+.custom-seo-settings .form-table input[type="checkbox"]:checked {
+  background: #2271b1;
+  border: 1px solid #3f98e1;
+}
+.custom-seo-settings .form-table input[type="checkbox"]::before {
+  content: "" !important;
+  background: #fff;
+  border-radius: 50%;
+  width: 17px;
+  height: 17px;
+  left: 2px;
+  position: absolute;
+  top: 2px;
+  margin: 0;
+  transition: 0.2s all ease-out;
+}
+.custom-seo-settings .form-table input[type="checkbox"]:checked::before {
+  left: 25px;
+}
+.custom-seo-settings .form-table code {
+  white-space: nowrap;
+}
+.custom-seo-settings .form-table p {
+  overflow: auto;
+  max-width: 100%;
+}
+.custom-seo-settings .form-table,
+.custom-seo-settings .form-table tbody {
+  display: block;
+}
+.custom-seo-settings .form-table tr {
+  display: flex;
+}
+.custom-seo-settings .form-table td {
+  display: block;
+}
+.custom-seo-settings .form-table tr:not(:last-child) {
+  border-bottom: 1px solid #c5c5c5;
+}
+.custom-seo-settings-box input[type="radio"] {
+  visibility: hidden;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+.custom-seo-settings-box input[type="radio"]:checked + label:nth-of-type(1) {
+  background: #5fbb58;
+  color: #fff;
+}
+.custom-seo-settings-box input[type="radio"]:checked + label:nth-of-type(2) {
+  background: #cf4040;
+  color: #fff;
+}
+.custom-seo-settings-box input[type="radio"]:checked + label:nth-of-type(3) {
+  background: #858585;
+  color: #fff;
+}
+.custom-seo-settings-box input[type="radio"] + label {
+  padding: 12px 0;
+  width: 100px;
+  background: #d8d8d8;
+  color: #000;
+  display: block;
+  text-align: center;
+}
+.custom-seo-settings-box__radio-btns {
+  display: flex;
+}
+.custom-seo-settings-box input[type="radio"] + label:nth-of-type(1) {
+  border-radius: 20px 0 0 20px;
+}
+.custom-seo-settings-box input[type="radio"] + label:nth-of-type(3) {
+  border-radius: 0 20px 20px 0;
+}
+.custom-seo-settings.robots-optimizaiton {
+  margin-left: 50px;
+}
