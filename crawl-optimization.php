@@ -13,20 +13,7 @@ function ultimatecrawloptimizer_styles()
 }
 add_action('admin_head', 'ultimatecrawloptimizer_styles');
 
-function ultimatecrawloptimizer_scripts()
-{
-  
-  echo '<script src="'.plugins_url( '/optimizer-java.js', __FILE__ ).'"></script>';
-}
-add_action('admin_footer', 'ultimatecrawloptimizer_scripts');
 
-function ultimatecrawloptimizer_load_custom_jquery()
-{
-  wp_deregister_script('jquery');
-  wp_register_script('jquery', 'https://code.jquery.com/jquery-3.6.0.min.js', false, '3.6.0');
-  wp_enqueue_script('jquery');
-}
-add_action('admin_enqueue_scripts', 'ultimatecrawloptimizer_load_custom_jquery');
 function ultimatecrawloptimizer_remove_feeds()
 {
   remove_action('wp_head', 'feed_links', 2);
@@ -61,112 +48,6 @@ function ultimatecrawloptimizer_remove_rest_api_links()
 }
 add_action('wp_head', 'ultimatecrawloptimizer_remove_rest_api_links', 1);
 // Remove query string from static resources
-function ultimatecrawloptimizer_remove_cssjs_ver($src)
-{
-  if (get_option('ultimatecrawloptimizer_enable_querystrings') == 1) {
-    if (strpos($src, '?ver='))
-      $src = remove_query_arg('ver', $src);
-  }
-  return $src;
-}
-
-add_filter('style_loader_src', 'ultimatecrawloptimizer_remove_cssjs_ver', 10, 2);
-add_filter('script_loader_src', 'ultimatecrawloptimizer_remove_cssjs_ver', 10, 2);
-
-function ultimatecrawloptimizer_disable_plugin_theme_editor()
-{
-  if (get_option('ultimatecrawloptimizer_disable_plugin_theme_editor') == 1) {
-    define('DISALLOW_FILE_EDIT', true);
-    remove_submenu_page('themes.php', 'theme-editor.php');
-    remove_submenu_page('plugins.php', 'plugin-editor.php');
-  }
-}
-add_action('admin_menu', 'ultimatecrawloptimizer_disable_plugin_theme_editor', 1);
-
-function ultimatecrawloptimizer_create_wp_content_htaccess()
-{
-  $htaccess_file1 = WP_CONTENT_DIR . '/.htaccess';
-  $htaccess_content1 = "<Files *.php>\ndeny from all\n<Files>";
-
-  if (get_option('ultimatecrawloptimizer_disable_wpcontent_php') == 1) {
-    if (!file_exists($htaccess_file1)) {
-      file_put_contents($htaccess_file1, $htaccess_content1);
-    }
-  } else {
-    if (file_exists($htaccess_file1)) {
-      unlink($htaccess_file1);
-    }
-  }
-}
-add_action('init', 'ultimatecrawloptimizer_create_wp_content_htaccess');
-
-function ultimatecrawloptimizer_create_wp_includes_htaccess()
-{
-  $htaccess_file2 = ABSPATH . 'wp-includes/.htaccess';
-  $htaccess_content2 = "<Files *.php>\ndeny from all\n<Files>";
-
-  if (get_option('ultimatecrawloptimizer_disable_includes_php') == 1) {
-    if (!file_exists($htaccess_file2)) {
-      file_put_contents($htaccess_file2, $htaccess_content2);
-    }
-  } else {
-    if (file_exists($htaccess_file2)) {
-      unlink($htaccess_file2);
-    }
-  }
-}
-add_action('init', 'ultimatecrawloptimizer_create_wp_includes_htaccess');
-
-function ultimatecrawloptimizer_create_wp_uploads_htaccess()
-{
-  $htaccess_file3 = ABSPATH . 'wp-content/uploads/.htaccess';
-  $htaccess_content3 = "<Files *.php>\ndeny from all\n<Files>";
-
-  if (get_option('ultimatecrawloptimizer_disable_uploads_php') == 1) {
-    if (!file_exists($htaccess_file3)) {
-      file_put_contents($htaccess_file3, $htaccess_content3);
-    }
-  } else {
-    if (file_exists($htaccess_file3)) {
-      unlink($htaccess_file3);
-    }
-  }
-}
-add_action('init', 'ultimatecrawloptimizer_create_wp_uploads_htaccess');
-
-function ultimatecrawloptimizer_replace_http_with_https($content)
-{
-  if (get_option('ultimatecrawloptimizer_disable_mixed_content') == 1) {
-    if (is_ssl()) {
-      $content = str_replace("http://", "https://", $content);
-    }
-  }
-  return $content;
-}
-add_filter('content_url', 'ultimatecrawloptimizer_replace_http_with_https');
-add_filter('plugins_url', 'ultimatecrawloptimizer_replace_http_with_https');
-add_filter('site_url', 'ultimatecrawloptimizer_replace_http_with_https');
-add_filter('stylesheet_directory_uri', 'ultimatecrawloptimizer_replace_http_with_https');
-add_filter('template_directory_uri', 'ultimatecrawloptimizer_replace_http_with_https');
-
-function ultimatecrawloptimizer_custom_login_error_messages()
-{
-  if (get_option('ultimatecrawloptimizer_prevent_exposed_login_feedback') == 1) {
-    return '<strong>ERROR</strong>: Invalid login credentials.';
-  }
-}
-function ultimatecrawloptimizer_clear_login_details_js()
-{
-  echo '<script>document.getElementById("user_login").value="";document.getElementById("user_email").value="";</script>';
-}
-function ultimatecrawloptimizer_clear_login_details()
-{
-  if (get_option('ultimatecrawloptimizer_prevent_exposed_login_feedback') == 1) {
-    add_action('login_head', 'ultimatecrawloptimizer_clear_login_details_js');
-    add_filter('login_errors', 'ultimatecrawloptimizer_custom_login_error_messages');
-  }
-}
-add_action('login_head', 'ultimatecrawloptimizer_clear_login_details');
 
 function ultimatecrawloptimizer_remove_rsd_wlw_links()
 {

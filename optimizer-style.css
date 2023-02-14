@@ -1,11 +1,3 @@
-textarea#robotstxt {
-  width: 100%;
-  height: 300px;
-}
-textarea#htaccess_content {
-  width: 100%;
-  height: 300px;
-}
 .custom-seo-settings-box:last-child p.submit input {
   font-size: 16px;
   padding: 12px 30px;
@@ -81,7 +73,7 @@ textarea#htaccess_content {
 .custom-seo-settings .form-table td:nth-child(2) {
   text-align: right;
 }
-.custom-seo-settings .form-table input[type="checkbox"] {
+.custom-seo-settings .form-table input[type='checkbox'] {
   border: 1px solid #696969;
   width: 45px;
   height: 23px;
@@ -89,12 +81,12 @@ textarea#htaccess_content {
   position: relative;
   background: #b2b2b2;
 }
-.custom-seo-settings .form-table input[type="checkbox"]:checked {
+.custom-seo-settings .form-table input[type='checkbox']:checked {
   background: #2271b1;
   border: 1px solid #3f98e1;
 }
-.custom-seo-settings .form-table input[type="checkbox"]::before {
-  content: "" !important;
+.custom-seo-settings .form-table input[type='checkbox']::before {
+  content: '' !important;
   background: #fff;
   border-radius: 50%;
   width: 17px;
@@ -105,7 +97,7 @@ textarea#htaccess_content {
   margin: 0;
   transition: 0.2s all ease-out;
 }
-.custom-seo-settings .form-table input[type="checkbox"]:checked::before {
+.custom-seo-settings .form-table input[type='checkbox']:checked::before {
   left: 25px;
 }
 .custom-seo-settings .form-table code {
@@ -128,25 +120,25 @@ textarea#htaccess_content {
 .custom-seo-settings .form-table tr:not(:last-child) {
   border-bottom: 1px solid #c5c5c5;
 }
-.custom-seo-settings-box input[type="radio"] {
+.custom-seo-settings-box input[type='radio'] {
   visibility: hidden;
   width: 0;
   height: 0;
   position: absolute;
 }
-.custom-seo-settings-box input[type="radio"]:checked + label:nth-of-type(1) {
+.custom-seo-settings-box input[type='radio']:checked + label:nth-of-type(1) {
   background: #5fbb58;
   color: #fff;
 }
-.custom-seo-settings-box input[type="radio"]:checked + label:nth-of-type(2) {
+.custom-seo-settings-box input[type='radio']:checked + label:nth-of-type(2) {
   background: #cf4040;
   color: #fff;
 }
-.custom-seo-settings-box input[type="radio"]:checked + label:nth-of-type(3) {
+.custom-seo-settings-box input[type='radio']:checked + label:nth-of-type(3) {
   background: #858585;
   color: #fff;
 }
-.custom-seo-settings-box input[type="radio"] + label {
+.custom-seo-settings-box input[type='radio'] + label {
   padding: 12px 0;
   width: 100px;
   background: #d8d8d8;
@@ -157,10 +149,10 @@ textarea#htaccess_content {
 .custom-seo-settings-box__radio-btns {
   display: flex;
 }
-.custom-seo-settings-box input[type="radio"] + label:nth-of-type(1) {
+.custom-seo-settings-box input[type='radio'] + label:nth-of-type(1) {
   border-radius: 20px 0 0 20px;
 }
-.custom-seo-settings-box input[type="radio"] + label:nth-of-type(3) {
+.custom-seo-settings-box input[type='radio'] + label:nth-of-type(3) {
   border-radius: 0 20px 20px 0;
 }
 .custom-seo-settings.robots-optimizaiton {
