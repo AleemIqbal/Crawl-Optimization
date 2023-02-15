@@ -229,7 +229,7 @@ function ultimatecrawloptimizer_crawl_optimizer_settings_page()
                   <p>Remove Feed URLs that supply details about your recent posts for every custom taxonomy, such as</p>
                   <?php
 
-                  $html = '<p><code>&lt;link rel="alternate" type="application/rss+xml" title="'.esc_attr( get_bloginfo( 'name' ) ).' - ASUS Feed" href=".esc_url( home_url( '/size/brand/asus/' ) )." /&gt;</code></p>';
+                  $html = '<p><code>&lt;link rel="alternate" type="application/rss+xml" title="'.esc_attr( get_bloginfo( 'name' ) ).' - ASUS Feed" href="'.esc_url( home_url( '/size/brand/asus/feed/' ) ).'" /&gt;</code></p>';
                   echo wp_kses_post( $html );
                   ?>
                 </th>
@@ -362,7 +362,7 @@ function ultimatecrawloptimizer_crawl_optimizer_settings_page()
                     <?php
                     $html = '<p><code>'.esc_url( home_url( '?utm_medium=organic' ) ).'</code></p>
 									<p>will be redirected to<br/></p>
-									<p><code>'.esc_url( home_url( '#utm_medium=organic' ) ).'/</code></p>';
+									<p><code>'.esc_url( home_url( '#utm_medium=organic' ) ).'</code></p>';
                   echo wp_kses_post( $html );
                     ?>
                 </th>
@@ -372,7 +372,7 @@ function ultimatecrawloptimizer_crawl_optimizer_settings_page()
               </tr>
               <tr>
                 <th>
-                  Remove unknown URL parameters through a 301 redirect
+                  Remove all URL parameters through a 301 redirect
                   <p style="color:white;background:red;">Note: This is an advanced feature and its not compatible with page builders like Elementor and some themes</p>
                   <p>Removes unnecessary query parameters from URLs through a permanent redirect, such as</p>
                   <?php
@@ -383,16 +383,6 @@ function ultimatecrawloptimizer_crawl_optimizer_settings_page()
                 <td>
                   <label for="ultimatecrawloptimizer_remove_unregistered_url_params"> <input type="checkbox" name="<?php echo esc_attr( 'ultimatecrawloptimizer_remove_unregistered_url_params' ); ?>" id="<?php echo esc_attr( 'ultimatecrawloptimizer_remove_unregistered_url_params' ); ?>" value="1" <?php checked(1, esc_attr(get_option('ultimatecrawloptimizer_remove_unregistered_url_params')), true); ?> /></label>
                 </td>
-              </tr>
-              <tr>
-                <th>
-                  Additional URL parameters to allow
-                  <?php
-                  $example_string = "<p>By adding specific URL parameters, this feature prevents them from being removed. For example, adding <code>example_parameter</code> will prevent the URL <code>'.esc_url( home_url( '?example_parameter=yes' ) ).'</code> from being redirected to <code>'.esc_url( home_url( '/' ) ).'</code>. Multiple parameters can be added and separated using a comma.</p>";
-                  echo wp_kses_post( $output_string );
-                  ?>
-                  <input type="text" name="<?php echo esc_attr( 'ultimatecrawloptimizer_allowed_url_params' ); ?>" id="<?php echo esc_attr( 'ultimatecrawloptimizer_allowed_url_params' ); ?>" value="<?php echo esc_attr( get_option('ultimatecrawloptimizer_allowed_url_params') ); ?>" size="50" />
-                </th>
               </tr>
             </tbody>
           </table>

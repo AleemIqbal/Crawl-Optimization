@@ -7,12 +7,10 @@ Version: 1.2
 Author: Big Techies
 Author URI: https://www.bigtechies.com/crawl-optimization-plugin/
 */
-function ultimatecrawloptimizer_styles()
-{
-  echo '<link rel="stylesheet" type="text/css" href="'.plugins_url( '/optimizer-style.css', __FILE__ ).'">';
+function ultimatecrawloptimizer_styles() {
+  wp_enqueue_style( 'optimizer-styles', plugins_url( '/optimizer-style.css', __FILE__ ), array(), '1.0.0', 'all' );
 }
-add_action('admin_head', 'ultimatecrawloptimizer_styles');
-
+add_action( 'admin_enqueue_scripts', 'ultimatecrawloptimizer_styles' );
 
 function ultimatecrawloptimizer_remove_feeds()
 {
@@ -21,10 +19,6 @@ function ultimatecrawloptimizer_remove_feeds()
 }
 add_action('init', 'ultimatecrawloptimizer_remove_feeds');
 
-if (isset($_POST['ultimatecrawloptimizer_allowed_url_params'])) {
-  $allowed_parameters = explode(',', $_POST['ultimatecrawloptimizer_allowed_url_params']);
-  ultimatecrawloptimizer_remove_unknown_parameters($allowed_parameters);
-}
 
 function ultimatecrawloptimizer_register_setting_group($option_name)
 {
@@ -172,7 +166,7 @@ function ultimatecrawloptimizer_remove_tag_feeds()
     {
       if (is_tag()) {
         $tag = get_queried_object();
-        echo "\n" . '<link rel="alternate" type="application/rss+xml" title="' . esc_attr($tag->name) . ' Tag RSS Feed" href="' . esc_url(get_tag_feed_link($tag->term_id)) . '" />';
+        echo "\n" . '<link rel="alternate" type="application/rss+xml" title="' . esc_attr( sanitize_text_field( $tag->name ) ) . ' Tag RSS Feed" href="' . esc_url( get_tag_feed_link( absint( $tag->term_id ) ) ) . '" />';
       }
     }
     add_action('wp_head', 'ultimatecrawloptimizer_tag_rss_link', 3);
@@ -182,6 +176,7 @@ add_action('init', 'ultimatecrawloptimizer_remove_post_type_feeds');
 function ultimatecrawloptimizer_remove_post_type_feeds()
 {
   if (get_option('ultimatecrawloptimizer_remove_post_type_feeds') == 1) {
+    // no action needed
   } else {
     function ultimatecrawloptimizer_add_post_type_feed_links()
     {
@@ -260,9 +255,12 @@ function ultimatecrawloptimizer_filter_search_special_chars()
 }
 function ultimatecrawloptimizer_remove_special_chars($query)
 {
-  $special_chars = array("!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "+", "=", "[", "]", "{", "}", "|", "\\", ";", ":", "'", "\"", ",", "<", ".", ">", "/", "?",);
+  $special_chars = array("!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "+", "=", "[", "]", "{", "}", "|", "\\", ";", ":", "'", "\"", ",", "<", ".", ">", "/", "?");
   $query = str_replace($special_chars, "", $query);
   $query = mb_ereg_replace("[\x{1F600}-\x{1F64F}]", '', $query);
+  $query = wp_kses($query, array()); // sanitize the query string by removing all HTML and PHP tags
+  $query = esc_attr($query); // escape the query string for safe use in an HTML attribute
+  $query = sanitize_text_field($query); // sanitize the query string for safe use as text
   return $query;
 }
 
@@ -276,17 +274,18 @@ function ultimatecrawloptimizer_filter_search_spam()
 function ultimatecrawloptimizer_remove_spam_patterns($query)
 {
   $spam_patterns = array("viagra", "cialis", "porn", "xxx", "casino", "gambling", "loan", "debt", "credit", "insurance", "forex");
-  $query = str_ireplace($spam_patterns, "", $query);
-  return $query;
+  $query = str_ireplace($spam_patterns, "", sanitize_text_field($query));
+  return esc_html($query);
 }
 
 function ultimatecrawloptimizer_search_redirect()
 {
   if (get_option('ultimatecrawloptimizer_redirect_pretty_urls') == 1) {
-    preg_match('/\/search\/(.*?)\/*$/', $_SERVER['REQUEST_URI'], $matches);
+    $request_uri = filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL);
+    preg_match('/\/search\/(.*?)\/*$/', $request_uri, $matches);
     if (count($matches) > 1) {
-      $search_query = rtrim($matches[1], '/');
-      $redirect_url = '/?' . 's=' . $search_query;
+      $search_query = sanitize_text_field(rtrim($matches[1], '/'));
+      $redirect_url = home_url('/?s=' . $search_query);
       wp_redirect($redirect_url, 301);
       exit;
     }
@@ -305,11 +304,14 @@ add_option('ultimatecrawloptimizer_max_search_characters', 50);
 function ultimatecrawloptimizer_redirect_utm_to_hash()
 {
   if (get_option('ultimatecrawloptimizer_optimize_ga_utm_params') == 1) {
-    if (strpos($_SERVER['REQUEST_URI'], '?utm_') !== false) {
-      $redirect_url = preg_replace('/\?utm_/', '#utm_', $_SERVER['REQUEST_URI']);
-      if (strcmp($_SERVER['REQUEST_URI'], $redirect_url) !== 0) {
-        wp_redirect($redirect_url, 301);
-        exit;
+    if (isset($_SERVER['REQUEST_URI'])) {
+      $request_uri = filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_STRING);
+      if (strpos($request_uri, '?utm_') !== false) {
+        $redirect_url = preg_replace('/\?utm_/', '#utm_', $request_uri);
+        if (strcmp($request_uri, $redirect_url) !== 0) {
+          wp_redirect($redirect_url, 301);
+          exit;
+        }
       }
     }
   }
@@ -322,28 +324,26 @@ function ultimatecrawloptimizer_redirect_feed()
   if (get_option('ultimatecrawloptimizer_redirect_feed') == 1) {
     if (is_feed()) {
       global $wp_query;
-      $post_id = $wp_query->get_queried_object_id();
-      $post_permalink = get_permalink($post_id);
-      wp_redirect($post_permalink, 301);
-      exit;
+      $post_id = absint($wp_query->get_queried_object_id());
+      $post_permalink = esc_url(get_permalink($post_id));
+      if ($post_permalink) {
+        wp_redirect($post_permalink, 301);
+        exit;
+      } else {
+        // If the post permalink is empty, display an error message or take other appropriate action
+        echo "Error: could not get post permalink.";
+      }
     }
   }
 }
-add_action('template_redirect', 'ultimatecrawloptimizer_remove_unknown_parameters');
-function ultimatecrawloptimizer_remove_unknown_parameters()
-{
-  if (!empty($unknown_parameters) && get_option('ultimatecrawloptimizer_remove_unregistered_url_params') == 1) {
-  $valid_parameters = array('s', 'p');
-  // Get the allowed parameters from the database
-  $allowed_parameters = explode(',', get_option('ultimatecrawloptimizer_allowed_url_params'));
-  // Merge the allowed parameters with the valid parameters
-  $valid_parameters = array_merge($valid_parameters, $allowed_parameters);
-  $current_parameters = array_keys($_GET);
-  $unknown_parameters = array_diff($current_parameters, $valid_parameters);
-    $redirect_url = preg_replace('/\?.*/', '', $_SERVER['REQUEST_URI']);
-    wp_redirect($redirect_url, 301);
-    exit;
-  }
+function ultimatecrawloptimizer_redirect_remove_params() {
+    if ( isset( $_GET ) && count( $_GET ) > 0 && get_option( 'ultimatecrawloptimizer_remove_unregistered_url_params' ) == 1 ) {
+        $query_string = sanitize_text_field( wp_unslash( $_SERVER['QUERY_STRING'] ) );
+        $new_url = esc_url_raw( strtok( wp_unslash( $_SERVER["REQUEST_URI"] ), '?' ) );
+        wp_redirect( $new_url, 301 );
+        exit();
+    }
 }
+add_action( 'template_redirect', 'ultimatecrawloptimizer_redirect_remove_params' );
 include_once(plugin_dir_path( __FILE__ ) . "/optimizer/optimizer.php");
 include_once(plugin_dir_path( __FILE__ ) . "/optimizer/crawl-optimizer.php");

@@ -6,10 +6,6 @@ function ultimatecrawloptimizer_settings()
     add_menu_page('Crawl Optimizations', 'Crawl Optimizations', 'manage_options', 'my-theme-settings', 'ultimatecrawloptimizer_crawl_optimizer_settings_page', 'dashicons-admin-generic', null);
 }
 
-function update_option_isset($name)
-{
-    update_option($name, isset($_POST[$name]));
-}
 
 function ultimatecrawloptimizer_register_setting()
 {
@@ -49,5 +45,4 @@ function ultimatecrawloptimizer_register_setting()
     ultimatecrawloptimizer_register_setting_group('ultimatecrawloptimizer_redirect_feed');
     ultimatecrawloptimizer_register_setting_group('ultimatecrawloptimizer_optimize_ga_utm_params');
     ultimatecrawloptimizer_register_setting_group('ultimatecrawloptimizer_remove_unregistered_url_params');
-    ultimatecrawloptimizer_register_setting_group('ultimatecrawloptimizer_allowed_url_params');
 }
