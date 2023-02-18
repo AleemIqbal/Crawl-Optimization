@@ -3,7 +3,7 @@
 add_action('admin_menu', 'ultimatecrawloptimizer_settings');
 function ultimatecrawloptimizer_settings()
 {
-    add_menu_page('Crawl Optimizations', 'Crawl Optimizations', 'manage_options', 'my-theme-settings', 'ultimatecrawloptimizer_crawl_optimizer_settings_page', 'dashicons-admin-generic', null);
+    add_menu_page('Crawl Optimizations', 'Crawl Optimizations', 'manage_options', 'crawloptimizations-settings', 'ultimatecrawloptimizer_crawl_optimizer_settings_page', 'dashicons-admin-generic', null);
 }
 
 
