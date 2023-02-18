@@ -44,7 +44,7 @@ The Crawl Optimization Plugin is designed to help optimize your website’s craw
 * Redirect all parameters option is now disabled for non supported themes and builders
 
 == V 1.1.1 ==
-* Redirect all parameters will no longer will with woocommerce
+* Redirect all parameters will no longer work with woocommerce
 
 == Upgrade Notice ==
 
@@ -53,7 +53,7 @@ Enabling Redirect removes references of feeds
 Redirect all parameters option is now disabled for non supported themes and builders
 
 = 1.1 =
-Redirect all parameters will no longer will with woocommerce
+Redirect all parameters will no longer work with woocommerce
 
 == Installation ==
 
