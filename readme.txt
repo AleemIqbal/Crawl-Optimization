@@ -4,7 +4,7 @@ Tags: Crawl Rate Optimization,Crawl Optimization
 Requires at least: 4.3
 Tested up to: 6.1.1
 Requires PHP: 5.2.4
-Stable tag: 1.1.3
+Stable tag: 1.1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,13 +44,19 @@ The Crawl Optimization Plugin is designed to help optimize your website’s craw
 * Redirect all parameters option is now disabled for non supported themes and builders
 
 == V 1.1.1 ==
-* Redirect all parameters will no longer will with woocommerce
+* Redirect all parameters will no longer work with woocommerce
 
 == V 1.1.2 ==
 * Added Settings Link on plugins page
 
 == V 1.1.3 ==
 * Jquery Conflict causing editors to crash fixed
+
+== V 1.1.4 ==
+* Emoji Filter and spam filter now also remove from url
+
+== V 1.1.5 ==
+* Feed Bugs Resolved and More Secure
 
 == Upgrade Notice ==
 
@@ -67,6 +73,11 @@ Added Settings Link on plugins page
 = V 1.1.3 =
 Jquery Conflict causing editors to crash fixed
 
+= V 1.1.4 =
+Emoji Filter and spam filter now also remove from url
+
+= V 1.1.5 =
+* Feed Bugs Resolved and More Secure
 
 == Installation ==
 

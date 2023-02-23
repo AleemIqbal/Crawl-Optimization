@@ -3,7 +3,7 @@
 Plugin Name: Crawl Optimization
 Plugin URI: https://www.bigtechies.com/
 Description: Plugin to Remove Garbage which wastes crawl budget
-Version: 1.1.3
+Version: 1.1.5
 Author: Big Techies
 Author URI: https://www.bigtechies.com/crawl-optimization-plugin/
 */
@@ -43,14 +43,18 @@ function ultimatecrawloptimizer_scripts()
   wp_enqueue_script( 'optimizer-scripts', plugins_url( '/optimizer-java.js', __FILE__ ), array(), '1.0', true );
 }
 add_action('admin_enqueue_scripts', 'ultimatecrawloptimizer_scripts');
-
-function ultimatecrawloptimizer_remove_feeds()
-{
-  remove_action('wp_head', 'feed_links', 2);
-  remove_action('wp_head', 'feed_links_extra', 3);
+global $remove_feed;
+$remove_feed = 0;
+function remove_feeds() {
+  global $remove_feed;
+  if ( get_option('ultimatecrawloptimizer_remove_global_feed') == 1 || get_option('ultimatecrawloptimizer_remove_global_comment_feeds') == 1 || get_option('ultimatecrawloptimizer_remove_post_comments_feeds') == 1 || get_option('ultimatecrawloptimizer_remove_post_authors_feeds') == 1 || get_option('ultimatecrawloptimizer_remove_post_type_feeds') == 1 || get_option('ultimatecrawloptimizer_remove_category_feeds') == 1 || get_option('ultimatecrawloptimizer_remove_tag_feeds') == 1 || get_option('ultimatecrawloptimizer_remove_custom_taxonomy_feeds') == 1 || get_option('ultimatecrawloptimizer_remove_search_results_feeds') == 1 || get_option('ultimatecrawloptimizer_remove_atom_rdf_feeds') == 1  || get_option('ultimatecrawloptimizer_redirect_feed') == 1 ){
+    remove_action( 'wp_head', 'feed_links', 2 );
+    remove_action( 'wp_head', 'feed_links_extra', 3 );
+    $remove_feed = 1;
+  }
 }
-add_action('init', 'ultimatecrawloptimizer_remove_feeds');
 
+add_action( 'init', 'remove_feeds' );
 
 function ultimatecrawloptimizer_register_setting_group($option_name)
 {
@@ -125,6 +129,7 @@ add_filter('wp_headers', 'ultimatecrawloptimizer_remove_powered_by_http_header',
 add_action('init', 'ultimatecrawloptimizer_remove_homepage_feed');
 function ultimatecrawloptimizer_remove_homepage_feed()
 {
+  global $remove_feed;
   if (get_option('ultimatecrawloptimizer_redirect_feed') == 1)
   {
       add_action('admin_footer', 'ultimatecrawloptimizer_disable_global_rss_feed_link', 3);
@@ -134,7 +139,7 @@ function ultimatecrawloptimizer_remove_homepage_feed()
       
       
   }
-   else {
+   else if ($remove_feed == 1)  {
     add_action('wp_head', 'ultimatecrawloptimizer_add_global_rss_feed_link', 3);
   }
 }
@@ -155,6 +160,7 @@ function ultimatecrawloptimizer_add_global_rss_feed_link()
 add_action('init', 'ultimatecrawloptimizer_remove_global_comment_feeds');
 function ultimatecrawloptimizer_remove_global_comment_feeds()
 {
+  global $remove_feed;
   if (get_option('ultimatecrawloptimizer_redirect_feed') == 1)
   {
     add_action('admin_footer', 'ultimatecrawloptimizer_disable_global_comment_feeds');
@@ -164,7 +170,7 @@ function ultimatecrawloptimizer_remove_global_comment_feeds()
       
       
   }
-  else {
+  else if ($remove_feed == 1) {
     
     add_action('wp_head', 'ultimatecrawloptimizer_add_global_comments_rss_link', 3);
   }
@@ -186,13 +192,14 @@ function ultimatecrawloptimizer_add_global_comments_rss_link()
 add_action('init', 'ultimatecrawloptimizer_remove_post_authors_feeds');
 function ultimatecrawloptimizer_remove_post_authors_feeds()
 {
+  global $remove_feed;
   if (get_option('ultimatecrawloptimizer_redirect_feed') == 1)
   {
       add_action('admin_footer', 'ultimatecrawloptimizer_disable_author_rss_link', 3);
   }
   else if (get_option('ultimatecrawloptimizer_remove_post_authors_feeds') == 1) {
   }
-  else {
+  else if ($remove_feed == 1)  {
     
     add_action('wp_head', 'ultimatecrawloptimizer_add_author_rss_link', 3);
   }
@@ -217,13 +224,14 @@ function ultimatecrawloptimizer_add_author_rss_link()
 add_action('init', 'ultimatecrawloptimizer_remove_category_feeds');
 function ultimatecrawloptimizer_remove_category_feeds()
 {
+  global $remove_feed;
   if (get_option('ultimatecrawloptimizer_redirect_feed') == 1)
   {
       add_action('admin_footer', 'ultimatecrawloptimizer_disable_category_rss_link', 3);
   }
   else if (get_option('ultimatecrawloptimizer_remove_category_feeds') == 1) {
   }
-  else {
+  else if ($remove_feed == 1)  {
     
     add_action('wp_head', 'ultimatecrawloptimizer_add_category_rss_link', 3);
   }
@@ -245,20 +253,25 @@ function ultimatecrawloptimizer_add_category_rss_link()
         echo "\n" . '<link rel="alternate" type="application/rss+xml" title="' . esc_attr($category->name) . ' Category RSS Feed" href="' . esc_url(get_category_feed_link($category->term_id)) . '" />';
       }
     }
-add_action('init', 'ultimatecrawloptimizer_remove_post_comments_feeds');
-function ultimatecrawloptimizer_remove_post_comments_feeds()
-{
-  if (get_option('ultimatecrawloptimizer_redirect_feed') == 1)
-  {
-      add_action('admin_footer', 'ultimatecrawloptimizer_disable_post_comments_feeds', 3);
-  }
-  else if (get_option('ultimatecrawloptimizer_remove_post_comments_feeds') == 1) {
-  }
-  else {
+    add_action('init', 'ultimatecrawloptimizer_remove_post_comments_feeds');
+
+    function ultimatecrawloptimizer_remove_post_comments_feeds()
+    {
+      global $remove_feed;
     
-    add_action('wp_head', 'ultimatecrawloptimizer_add_comments_rss_link', 3);
-  }
-}
+      if (get_option('ultimatecrawloptimizer_redirect_feed') == 1)
+      {
+        add_action('admin_footer', 'ultimatecrawloptimizer_disable_post_comments_feeds', 3);
+      }
+      else if (get_option('ultimatecrawloptimizer_remove_post_comments_feeds') == 1) {
+        // do nothing
+      }
+      else if ($remove_feed == 1)  {
+        
+          add_action('wp', 'ultimatecrawloptimizer_try_comments_rss_link');
+        
+      }
+    }
 function ultimatecrawloptimizer_disable_post_comments_feeds()
     {
       ?>
@@ -270,20 +283,28 @@ function ultimatecrawloptimizer_disable_post_comments_feeds()
     <?php
     }
 
-function ultimatecrawloptimizer_add_comments_rss_link()
+function ultimatecrawloptimizer_try_comments_rss_link()
     {
+      if (is_single()) {
+      add_action('wp_head', 'ultimatecrawloptimizer_add_comments_rss_link', 3);
+      }
+    }
+    function ultimatecrawloptimizer_add_comments_rss_link()
+    {
+      
       echo "\n" . '<link rel="alternate" type="application/rss+xml" title="Comments RSS Feed" href="' . get_post_comments_feed_link() . '" />';
     }
 add_action('init', 'ultimatecrawloptimizer_remove_tag_feeds');
 function ultimatecrawloptimizer_remove_tag_feeds()
 {
+  global $remove_feed;
   if (get_option('ultimatecrawloptimizer_redirect_feed') == 1)
   {
       add_action('admin_footer', 'ultimatecrawloptimizer_disable_tag_feeds', 3);
   }
   else if (get_option('ultimatecrawloptimizer_remove_tag_feeds') == 1) {
   }
-  else {
+  else if ($remove_feed == 1)  {
     
     add_action('wp_head', 'ultimatecrawloptimizer_tag_rss_link', 3);
   }
@@ -308,13 +329,14 @@ function ultimatecrawloptimizer_tag_rss_link()
 add_action('init', 'ultimatecrawloptimizer_remove_post_type_feeds');
 function ultimatecrawloptimizer_remove_post_type_feeds()
 {
+  global $remove_feed;
   if (get_option('ultimatecrawloptimizer_redirect_feed') == 1)
   {
       add_action('admin_footer', 'ultimatecrawloptimizer_disable_post_type_feeds', 3);
   }
   else if (get_option('ultimatecrawloptimizer_remove_post_type_feeds') == 1) {
   }
-  else {
+  else if ($remove_feed == 1)  {
     
     add_action('wp_head', 'ultimatecrawloptimizer_add_post_type_feed_links');
   }
@@ -341,13 +363,14 @@ function ultimatecrawloptimizer_add_post_type_feed_links()
 add_action('init', 'ultimatecrawloptimizer_remove_custom_taxonomy_feeds');
 function ultimatecrawloptimizer_remove_custom_taxonomy_feeds()
 {
+  global $remove_feed;
   if (get_option('ultimatecrawloptimizer_redirect_feed') == 1)
   {
       add_action('admin_footer', 'ultimatecrawloptimizer_disable_custom_taxonomy_feeds', 3);
   }
   else if (get_option('ultimatecrawloptimizer_remove_custom_taxonomy_feeds') == 1) {
   }
-  else {
+  else if ($remove_feed == 1)  {
     
     add_action('wp_head', 'ultimatecrawloptimizer_taxonomy_rss_link', 3);
   }
@@ -371,13 +394,14 @@ function ultimatecrawloptimizer_taxonomy_rss_link()
     }
 function ultimatecrawloptimizer_remove_search_results_feeds($query)
 {
+  global $remove_feed;
   if (get_option('ultimatecrawloptimizer_redirect_feed') == 1)
   {
       add_action('admin_footer', 'ultimatecrawloptimizer_disable_search_results_feeds', 3);
   }
   else if (get_option('ultimatecrawloptimizer_remove_search_results_feeds') == 1) {
   }
-  else {
+  else if ($remove_feed == 1)  {
     add_action('wp_head', 'ultimatecrawloptimizer_add_search_rss_link', 3);
   }
 }
@@ -443,37 +467,64 @@ function ultimatecrawloptimizer_remove_emoji_scripts()
     remove_filter('wp_mail', 'wp_staticize_emoji_for_email');
   }
 }
-
 add_action('init', 'ultimatecrawloptimizer_filter_search_special_chars');
-function ultimatecrawloptimizer_filter_search_special_chars()
-{
+
+function ultimatecrawloptimizer_filter_search_special_chars() {
   if (get_option('ultimatecrawloptimizer_filter_special_characters') == 1) {
-    add_filter('get_search_query', 'ultimatecrawloptimizer_remove_special_chars');
+    add_action('pre_get_posts', 'remove_special_chars_from_search_url');
+    add_action('pre_get_posts', 'remove_emojis_from_search_url');
   }
 }
-function ultimatecrawloptimizer_remove_special_chars($query)
-{
-  $special_chars = array("!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "+", "=", "[", "]", "{", "}", "|", "\\", ";", ":", "'", "\"", ",", "<", ".", ">", "/", "?");
-  $query = str_replace($special_chars, "", $query);
-  $query = mb_ereg_replace("[\x{1F600}-\x{1F64F}]", '', $query);
-  $query = wp_kses($query, array()); // sanitize the query string by removing all HTML and PHP tags
-  $query = esc_attr($query); // escape the query string for safe use in an HTML attribute
-  $query = sanitize_text_field($query); // sanitize the query string for safe use as text
-  return $query;
+
+function remove_emojis_from_search_url($query) {
+  if ($query->is_search() && isset($_GET['s'])) {
+    $search_term = sanitize_text_field($_GET['s']);
+    $emoji_regex = '/[\x{1F600}-\x{1F64F}\x{1F300}-\x{1F5FF}\x{1F680}-\x{1F6FF}\x{2600}-\x{26FF}\x{2700}-\x{27BF}\x{1F900}-\x{1F9FF}\x{1F1E0}-\x{1F1FF}]/u';
+
+    if (preg_match($emoji_regex, $search_term)) {
+      $clean_search_term = preg_replace($emoji_regex, '', $search_term);
+      $clean_search_term = esc_url(home_url("/?s=$clean_search_term"));
+      wp_redirect($clean_search_term, 301);
+      exit;
+    }
+  }
 }
 
+function remove_special_chars_from_search_url($query) {
+  if ($query->is_search() && isset($_GET['s'])) {
+    $search_term = sanitize_text_field($_GET['s']);
+    $special_chars_regex = '/[^\p{L}\p{N}\s]/u';
+
+    if (preg_match($special_chars_regex, $search_term)) {
+      $clean_search_term = preg_replace($special_chars_regex, '', $search_term);
+      $clean_search_term = esc_url(home_url("/?s=$clean_search_term"));
+      wp_redirect($clean_search_term, 301);
+      exit;
+    }
+  }
+}
 add_action('init', 'ultimatecrawloptimizer_filter_search_spam');
 function ultimatecrawloptimizer_filter_search_spam()
 {
   if (get_option('ultimatecrawloptimizer_filter_spam_patterns') == 1) {
-    add_filter('get_search_query', 'ultimatecrawloptimizer_remove_spam_patterns');
+    add_action('pre_get_posts', 'remove_spammy_words_from_search_url');
   }
 }
-function ultimatecrawloptimizer_remove_spam_patterns($query)
-{
-  $spam_patterns = array("viagra", "cialis", "porn", "xxx", "casino", "gambling", "loan", "debt", "credit", "insurance", "forex");
-  $query = str_ireplace($spam_patterns, "", sanitize_text_field($query));
-  return esc_html($query);
+
+function remove_spammy_words_from_search_url($query) {
+  if ($query->is_search() && isset($_GET['s'])) {
+    $search_term = sanitize_text_field($_GET['s']);
+    $search_term = esc_html($search_term);
+    $spam_patterns = array("viagra", "cialis", "porn", "xxx", "casino", "dating", "gay", "gambling", "loan", "debt", "credit", "insurance", "forex");
+    $spam_pattern_regex = '/\b(' . implode('|', array_map('preg_quote', $spam_patterns)) . '|(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,6})\b/i';
+
+    if (preg_match($spam_pattern_regex, $search_term)) {
+      $clean_search_term = preg_replace($spam_pattern_regex, '', $search_term);
+      $clean_search_term = sanitize_text_field($clean_search_term);
+      wp_redirect(home_url("/?s=$clean_search_term"), 301);
+      exit;
+    }
+  }
 }
 
 function ultimatecrawloptimizer_search_redirect()
@@ -483,6 +534,7 @@ function ultimatecrawloptimizer_search_redirect()
     preg_match('/\/search\/(.*?)\/*$/', $request_uri, $matches);
     if (count($matches) > 1) {
       $search_query = sanitize_text_field(rtrim($matches[1], '/'));
+      $search_query = esc_html($search_query);
       $redirect_url = home_url('/?s=' . $search_query);
       wp_redirect($redirect_url, 301);
       exit;

@@ -3,6 +3,11 @@
 
 function ultimatecrawloptimizer_crawl_optimizer_settings_page()
 {
+  // Check if the user has the required permissions
+if ( ! current_user_can( 'manage_options' ) ) {
+  wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+  }
+
 ?>
   <div class="wrap custom-seo-settings">
     <h1 style="text-align:center;">Crawl Optimization</h1>
