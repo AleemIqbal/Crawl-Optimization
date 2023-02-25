@@ -58,6 +58,9 @@ The Crawl Optimization Plugin is designed to help optimize your website’s craw
 == V 1.1.5 ==
 * Feed Bugs Resolved and More Secure
 
+== V 1.1.6 ==
+* Removed Feed due to instability and it could cause SEO Issues
+
 == Upgrade Notice ==
 
 = 1.1 =
@@ -77,7 +80,10 @@ Jquery Conflict causing editors to crash fixed
 Emoji Filter and spam filter now also remove from url
 
 = V 1.1.5 =
-* Feed Bugs Resolved and More Secure
+Feed Bugs Resolved and More Secure
+
+= V 1.1.6 =
+Removed Feed due to instability and it could cause SEO Issues
 
 == Installation ==
 

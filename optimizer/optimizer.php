@@ -42,7 +42,6 @@ function ultimatecrawloptimizer_register_setting()
     ultimatecrawloptimizer_register_setting_group('ultimatecrawloptimizer_filter_spam_patterns');
     ultimatecrawloptimizer_register_setting_group('ultimatecrawloptimizer_redirect_pretty_urls');
     ultimatecrawloptimizer_register_setting_group('ultimatecrawloptimizer_prevent_internal_search_crawl');
-    ultimatecrawloptimizer_register_setting_group('ultimatecrawloptimizer_redirect_feed');
     ultimatecrawloptimizer_register_setting_group('ultimatecrawloptimizer_optimize_ga_utm_params');
     ultimatecrawloptimizer_register_setting_group('ultimatecrawloptimizer_remove_unregistered_url_params');
 }

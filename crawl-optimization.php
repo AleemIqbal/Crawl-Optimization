@@ -45,16 +45,16 @@ function ultimatecrawloptimizer_scripts()
 add_action('admin_enqueue_scripts', 'ultimatecrawloptimizer_scripts');
 global $remove_feed;
 $remove_feed = 0;
-function remove_feeds() {
+function ultimatecrawloptimizer_remove_feeds() {
   global $remove_feed;
-  if ( get_option('ultimatecrawloptimizer_remove_global_feed') == 1 || get_option('ultimatecrawloptimizer_remove_global_comment_feeds') == 1 || get_option('ultimatecrawloptimizer_remove_post_comments_feeds') == 1 || get_option('ultimatecrawloptimizer_remove_post_authors_feeds') == 1 || get_option('ultimatecrawloptimizer_remove_post_type_feeds') == 1 || get_option('ultimatecrawloptimizer_remove_category_feeds') == 1 || get_option('ultimatecrawloptimizer_remove_tag_feeds') == 1 || get_option('ultimatecrawloptimizer_remove_custom_taxonomy_feeds') == 1 || get_option('ultimatecrawloptimizer_remove_search_results_feeds') == 1 || get_option('ultimatecrawloptimizer_remove_atom_rdf_feeds') == 1  || get_option('ultimatecrawloptimizer_redirect_feed') == 1 ){
+  if ( get_option('ultimatecrawloptimizer_remove_global_feed') == 1 || get_option('ultimatecrawloptimizer_remove_global_comment_feeds') == 1 || get_option('ultimatecrawloptimizer_remove_post_comments_feeds') == 1 || get_option('ultimatecrawloptimizer_remove_post_authors_feeds') == 1 || get_option('ultimatecrawloptimizer_remove_post_type_feeds') == 1 || get_option('ultimatecrawloptimizer_remove_category_feeds') == 1 || get_option('ultimatecrawloptimizer_remove_tag_feeds') == 1 || get_option('ultimatecrawloptimizer_remove_custom_taxonomy_feeds') == 1 || get_option('ultimatecrawloptimizer_remove_search_results_feeds') == 1 || get_option('ultimatecrawloptimizer_remove_atom_rdf_feeds') == 1){
     remove_action( 'wp_head', 'feed_links', 2 );
     remove_action( 'wp_head', 'feed_links_extra', 3 );
     $remove_feed = 1;
   }
 }
 
-add_action( 'init', 'remove_feeds' );
+add_action( 'init', 'ultimatecrawloptimizer_remove_feeds' );
 
 function ultimatecrawloptimizer_register_setting_group($option_name)
 {
@@ -130,12 +130,7 @@ add_action('init', 'ultimatecrawloptimizer_remove_homepage_feed');
 function ultimatecrawloptimizer_remove_homepage_feed()
 {
   global $remove_feed;
-  if (get_option('ultimatecrawloptimizer_redirect_feed') == 1)
-  {
-      add_action('admin_footer', 'ultimatecrawloptimizer_disable_global_rss_feed_link', 3);
-      
-  }
-  else if (get_option('ultimatecrawloptimizer_remove_global_feed') == 1) {
+  if (get_option('ultimatecrawloptimizer_remove_global_feed') == 1) {
       
       
   }
@@ -143,16 +138,6 @@ function ultimatecrawloptimizer_remove_homepage_feed()
     add_action('wp_head', 'ultimatecrawloptimizer_add_global_rss_feed_link', 3);
   }
 }
-function ultimatecrawloptimizer_disable_global_rss_feed_link()
-    {
-      ?>
-    <script>
-      jQuery(document).ready(function($) {
-        $('#ultimatecrawloptimizer_remove_global_feed').prop('checked', true).prop('disabled', true);
-      });
-    </script>
-    <?php
-    }
 function ultimatecrawloptimizer_add_global_rss_feed_link()
     {
       echo "\n" . '<link rel="alternate" type="application/rss+xml" title="Global RSS Feed" href="' . esc_url(home_url('/feed/')) . '" />';
@@ -161,12 +146,7 @@ add_action('init', 'ultimatecrawloptimizer_remove_global_comment_feeds');
 function ultimatecrawloptimizer_remove_global_comment_feeds()
 {
   global $remove_feed;
-  if (get_option('ultimatecrawloptimizer_redirect_feed') == 1)
-  {
-    add_action('admin_footer', 'ultimatecrawloptimizer_disable_global_comment_feeds');
-      
-  }
-  else if (get_option('ultimatecrawloptimizer_remove_global_comment_feeds') == 1) {
+  if (get_option('ultimatecrawloptimizer_remove_global_comment_feeds') == 1) {
       
       
   }
@@ -175,16 +155,6 @@ function ultimatecrawloptimizer_remove_global_comment_feeds()
     add_action('wp_head', 'ultimatecrawloptimizer_add_global_comments_rss_link', 3);
   }
 }
-function ultimatecrawloptimizer_disable_global_comment_feeds()
-    {
-      ?>
-    <script>
-      jQuery(document).ready(function($) {
-        $('#ultimatecrawloptimizer_remove_global_comment_feeds').prop('checked', true).prop('disabled', true);
-      });
-    </script>
-    <?php
-    }
 function ultimatecrawloptimizer_add_global_comments_rss_link()
     {
       echo "\n" . '<link rel="alternate" type="application/rss+xml" title="Global Comments RSS Feed" href="' . ((isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]") . '/comments/feed/" />';
@@ -193,27 +163,13 @@ add_action('init', 'ultimatecrawloptimizer_remove_post_authors_feeds');
 function ultimatecrawloptimizer_remove_post_authors_feeds()
 {
   global $remove_feed;
-  if (get_option('ultimatecrawloptimizer_redirect_feed') == 1)
-  {
-      add_action('admin_footer', 'ultimatecrawloptimizer_disable_author_rss_link', 3);
-  }
-  else if (get_option('ultimatecrawloptimizer_remove_post_authors_feeds') == 1) {
+  if (get_option('ultimatecrawloptimizer_remove_post_authors_feeds') == 1) {
   }
   else if ($remove_feed == 1)  {
     
     add_action('wp_head', 'ultimatecrawloptimizer_add_author_rss_link', 3);
   }
 }
-function ultimatecrawloptimizer_disable_author_rss_link()
-    {
-      ?>
-    <script>
-      jQuery(document).ready(function($) {
-        $('#ultimatecrawloptimizer_remove_post_authors_feeds').prop('checked', true).prop('disabled', true);
-      });
-    </script>
-    <?php
-    }
 function ultimatecrawloptimizer_add_author_rss_link()
     {
       if (is_author()) {
@@ -225,27 +181,13 @@ add_action('init', 'ultimatecrawloptimizer_remove_category_feeds');
 function ultimatecrawloptimizer_remove_category_feeds()
 {
   global $remove_feed;
-  if (get_option('ultimatecrawloptimizer_redirect_feed') == 1)
-  {
-      add_action('admin_footer', 'ultimatecrawloptimizer_disable_category_rss_link', 3);
-  }
-  else if (get_option('ultimatecrawloptimizer_remove_category_feeds') == 1) {
+  if (get_option('ultimatecrawloptimizer_remove_category_feeds') == 1) {
   }
   else if ($remove_feed == 1)  {
     
     add_action('wp_head', 'ultimatecrawloptimizer_add_category_rss_link', 3);
   }
 }
-function ultimatecrawloptimizer_disable_category_rss_link()
-    {
-      ?>
-    <script>
-      jQuery(document).ready(function($) {
-        $('#ultimatecrawloptimizer_remove_category_feeds').prop('checked', true).prop('disabled', true);
-      });
-    </script>
-    <?php
-    }
 function ultimatecrawloptimizer_add_category_rss_link()
     {
       if (is_category()) {
@@ -259,11 +201,7 @@ function ultimatecrawloptimizer_add_category_rss_link()
     {
       global $remove_feed;
     
-      if (get_option('ultimatecrawloptimizer_redirect_feed') == 1)
-      {
-        add_action('admin_footer', 'ultimatecrawloptimizer_disable_post_comments_feeds', 3);
-      }
-      else if (get_option('ultimatecrawloptimizer_remove_post_comments_feeds') == 1) {
+      if (get_option('ultimatecrawloptimizer_remove_post_comments_feeds') == 1) {
         // do nothing
       }
       else if ($remove_feed == 1)  {
@@ -272,17 +210,6 @@ function ultimatecrawloptimizer_add_category_rss_link()
         
       }
     }
-function ultimatecrawloptimizer_disable_post_comments_feeds()
-    {
-      ?>
-    <script>
-      jQuery(document).ready(function($) {
-        $('#ultimatecrawloptimizer_remove_post_comments_feeds').prop('checked', true).prop('disabled', true);
-      });
-    </script>
-    <?php
-    }
-
 function ultimatecrawloptimizer_try_comments_rss_link()
     {
       if (is_single()) {
@@ -298,27 +225,13 @@ add_action('init', 'ultimatecrawloptimizer_remove_tag_feeds');
 function ultimatecrawloptimizer_remove_tag_feeds()
 {
   global $remove_feed;
-  if (get_option('ultimatecrawloptimizer_redirect_feed') == 1)
-  {
-      add_action('admin_footer', 'ultimatecrawloptimizer_disable_tag_feeds', 3);
-  }
-  else if (get_option('ultimatecrawloptimizer_remove_tag_feeds') == 1) {
+  if (get_option('ultimatecrawloptimizer_remove_tag_feeds') == 1) {
   }
   else if ($remove_feed == 1)  {
     
     add_action('wp_head', 'ultimatecrawloptimizer_tag_rss_link', 3);
   }
 }
-function ultimatecrawloptimizer_disable_tag_feeds()
-    {
-      ?>
-    <script>
-      jQuery(document).ready(function($) {
-        $('#ultimatecrawloptimizer_remove_tag_feeds').prop('checked', true).prop('disabled', true);
-      });
-    </script>
-    <?php
-    }
 function ultimatecrawloptimizer_tag_rss_link()
     {
       if (is_tag()) {
@@ -330,27 +243,13 @@ add_action('init', 'ultimatecrawloptimizer_remove_post_type_feeds');
 function ultimatecrawloptimizer_remove_post_type_feeds()
 {
   global $remove_feed;
-  if (get_option('ultimatecrawloptimizer_redirect_feed') == 1)
-  {
-      add_action('admin_footer', 'ultimatecrawloptimizer_disable_post_type_feeds', 3);
-  }
-  else if (get_option('ultimatecrawloptimizer_remove_post_type_feeds') == 1) {
+  if (get_option('ultimatecrawloptimizer_remove_post_type_feeds') == 1) {
   }
   else if ($remove_feed == 1)  {
     
     add_action('wp_head', 'ultimatecrawloptimizer_add_post_type_feed_links');
   }
 }
-function ultimatecrawloptimizer_disable_post_type_feeds()
-    {
-      ?>
-    <script>
-      jQuery(document).ready(function($) {
-        $('#ultimatecrawloptimizer_remove_post_type_feeds').prop('checked', true).prop('disabled', true);
-      });
-    </script>
-    <?php
-    }
 function ultimatecrawloptimizer_add_post_type_feed_links()
     {
       $post_types = get_post_types(array('public' => true), 'objects');
@@ -364,27 +263,13 @@ add_action('init', 'ultimatecrawloptimizer_remove_custom_taxonomy_feeds');
 function ultimatecrawloptimizer_remove_custom_taxonomy_feeds()
 {
   global $remove_feed;
-  if (get_option('ultimatecrawloptimizer_redirect_feed') == 1)
-  {
-      add_action('admin_footer', 'ultimatecrawloptimizer_disable_custom_taxonomy_feeds', 3);
-  }
-  else if (get_option('ultimatecrawloptimizer_remove_custom_taxonomy_feeds') == 1) {
+  if (get_option('ultimatecrawloptimizer_remove_custom_taxonomy_feeds') == 1) {
   }
   else if ($remove_feed == 1)  {
     
     add_action('wp_head', 'ultimatecrawloptimizer_taxonomy_rss_link', 3);
   }
 }
-function ultimatecrawloptimizer_disable_custom_taxonomy_feeds()
-    {
-      ?>
-    <script>
-      jQuery(document).ready(function($) {
-        $('#ultimatecrawloptimizer_remove_custom_taxonomy_feeds').prop('checked', true).prop('disabled', true);
-      });
-    </script>
-    <?php
-    }
 function ultimatecrawloptimizer_taxonomy_rss_link()
     {
       if (is_tax('custom_taxonomy')) {
@@ -395,11 +280,7 @@ function ultimatecrawloptimizer_taxonomy_rss_link()
 function ultimatecrawloptimizer_remove_search_results_feeds($query)
 {
   global $remove_feed;
-  if (get_option('ultimatecrawloptimizer_redirect_feed') == 1)
-  {
-      add_action('admin_footer', 'ultimatecrawloptimizer_disable_search_results_feeds', 3);
-  }
-  else if (get_option('ultimatecrawloptimizer_remove_search_results_feeds') == 1) {
+  if (get_option('ultimatecrawloptimizer_remove_search_results_feeds') == 1) {
   }
   else if ($remove_feed == 1)  {
     add_action('wp_head', 'ultimatecrawloptimizer_add_search_rss_link', 3);
@@ -427,25 +308,10 @@ function ultimatecrawloptimizer_add_search_rss_link()
 add_action('init', 'ultimatecrawloptimizer_remove_atom_rdf_feeds');
 function ultimatecrawloptimizer_remove_atom_rdf_feeds()
 {
-  if (get_option('ultimatecrawloptimizer_redirect_feed') == 1)
-  {
-      add_action('admin_footer', 'ultimatecrawloptimizer_disable_atom_rdf_feeds', 3);
-      add_action('wp_head', 'ultimatecrawloptimizer_remove_atom_rdf_feed', 3);
-  }
-  else if (get_option('ultimatecrawloptimizer_remove_atom_rdf_feeds') == 1) {
+  if (get_option('ultimatecrawloptimizer_remove_atom_rdf_feeds') == 1) {
     add_action('wp_head', 'ultimatecrawloptimizer_remove_atom_rdf_feed', 3);
   }
 }
-function ultimatecrawloptimizer_disable_atom_rdf_feeds()
-    {
-      ?>
-    <script>
-      jQuery(document).ready(function($) {
-        $('#ultimatecrawloptimizer_remove_atom_rdf_feeds').prop('checked', true).prop('disabled', true);
-      });
-    </script>
-    <?php
-    }
 function ultimatecrawloptimizer_remove_atom_rdf_feed()
 {
   
@@ -567,26 +433,7 @@ function ultimatecrawloptimizer_redirect_utm_to_hash()
   }
 }
 add_action('init', 'ultimatecrawloptimizer_redirect_utm_to_hash');
-add_action('template_redirect', 'ultimatecrawloptimizer_redirect_feed');
 
-function ultimatecrawloptimizer_redirect_feed()
-{
-    add_action('admin_footer', 'ultimatecrawloptimizer_disable_global_rss_feed_link', 3);
-  if (get_option('ultimatecrawloptimizer_redirect_feed') == 1) {
-    if (is_feed()) {
-      global $wp_query;
-      $post_id = absint($wp_query->get_queried_object_id());
-      $post_permalink = esc_url(get_permalink($post_id));
-      if ($post_permalink) {
-        wp_redirect($post_permalink, 301);
-        exit;
-      } else {
-        // If the post permalink is empty, display an error message or take other appropriate action
-        echo "Error: could not get post permalink.";
-      }
-    }
-  }
-}
 function ultimatecrawloptimizer_redirect_remove_params() {
   $remove_params = get_option('ultimatecrawloptimizer_remove_unregistered_url_params');
   if (isset($_GET) && count($_GET) > 0 && $remove_params == 1 ) {

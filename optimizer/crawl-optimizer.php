@@ -125,18 +125,6 @@ if ( ! current_user_can( 'manage_options' ) ) {
         <div class="custom-seo-settings-box__column">
           <table class="form-table">
             <tbody>
-              <tr>
-                <th scope="row">
-                  Redirect Feed URLs to URL
-                  <p>Remove /feed/ at the end of URL and redirect to Original.<br />
-                  </p>
-                  <p style="color:white;background:red;">Note: Enabling this will remove all the feed references from website to avoid search console errors.</p>
-                </th>
-                <td>
-                <input type="checkbox" name="<?php echo esc_attr( 'ultimatecrawloptimizer_redirect_feed' ); ?>" id="<?php echo esc_attr( 'ultimatecrawloptimizer_redirect_feed' ); ?>" value="1" <?php checked(1, esc_attr(get_option('ultimatecrawloptimizer_redirect_feed')), true); ?> onclick="handleRedirectFeedCheckbox(this)" />
-                </td>
-              </tr>
-              <tr>
               <tr valign="top">
                 <th scope="row">
                   Remove Global Feed
