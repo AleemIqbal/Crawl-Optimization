@@ -146,9 +146,10 @@ if ( ! current_user_can( 'manage_options' ) ) {
                   $html = '<p><code>&lt;link rel="alternate" type="application/rss+xml" title="'.esc_attr( get_bloginfo( 'name' ) ).' - Comments Feed" href="'.esc_url( home_url( '/comments/feed/' ) ).'" /&gt;</code></p>';
                   echo wp_kses_post( $html );
                   ?>
+                  <p>It will also disable post comment feeds.</p>
                 </th>
                 <td>
-                <input type="checkbox" name="<?php echo esc_attr( 'ultimatecrawloptimizer_remove_global_comment_feeds' ); ?>" id="<?php echo esc_attr( 'ultimatecrawloptimizer_remove_global_comment_feeds' ); ?>" value="1" <?php checked(1, esc_attr(get_option('ultimatecrawloptimizer_remove_global_comment_feeds')), true); ?> />
+                <input type="checkbox" name="<?php echo esc_attr( 'ultimatecrawloptimizer_remove_global_comment_feeds' ); ?>"  id="<?php echo esc_attr( 'ultimatecrawloptimizer_remove_global_comment_feeds' ); ?>" value="1"  onclick="toggleCommentFeeds()" <?php checked(1, esc_attr(get_option('ultimatecrawloptimizer_remove_global_comment_feeds')), true); ?> />
                 </td>
               </tr>
               <tr valign="top">
@@ -292,6 +293,15 @@ if ( ! current_user_can( 'manage_options' ) ) {
         <div class="custom-seo-settings-box__column">
           <table class="form-table">
             <tbody>
+            <tr>
+                <th scope="row">
+                  Filter Spam Search Terms
+                  <p>Enables advanced settings for protecting your internal site search URLs from SPAM attacks.</p>
+                </th>
+                <td>
+                <input type="checkbox" name="<?php echo esc_attr( 'ultimatecrawloptimizer_filter_search_terms' ); ?>" id="<?php echo esc_attr( 'ultimatecrawloptimizer_filter_search_terms' ); ?>" value="1" <?php checked(1, esc_attr(get_option('ultimatecrawloptimizer_filter_search_terms')), true); ?> />
+                </td>
+              </tr>
               <tr>
                 <th scope="row">
                   Limit the number of characters allowed in internal site searches
@@ -367,7 +377,6 @@ if ( ! current_user_can( 'manage_options' ) ) {
               <tr>
                 <th>
                   Remove all URL parameters through a 301 redirect
-                  <p style="color:white;background:red;">Note: This is an advanced feature and its not compatible with page builders like Elementor and some themes</p>
                   <p>Removes unnecessary query parameters from URLs through a permanent redirect, such as</p>
                   <?php
                   $html = '<p><code>'.esc_url( home_url( '?unknown_parameter=yes' ) ).'</code></p> <p>will be redirected to<br/></p> <p><code>'.esc_url( home_url( '/' ) ).'</code></p>';
@@ -377,6 +386,20 @@ if ( ! current_user_can( 'manage_options' ) ) {
                 <td>
                   <label for="ultimatecrawloptimizer_remove_unregistered_url_params"> <input type="checkbox" name="<?php echo esc_attr( 'ultimatecrawloptimizer_remove_unregistered_url_params' ); ?>" id="<?php echo esc_attr( 'ultimatecrawloptimizer_remove_unregistered_url_params' ); ?>" value="1" <?php checked(1, esc_attr(get_option('ultimatecrawloptimizer_remove_unregistered_url_params')), true); ?> /></label>
                 </td>
+              </tr>
+              <tr>
+                <th>
+                  Additional URL parameters to allow
+                  <?php
+                  $example_string = "<p>By adding specific URL parameters, this feature prevents them from being removed. For example, adding <code>example_parameter</code> will prevent the URL <code>https://www.example.com/?example_parameter=yes</code> from being redirected to <code>https://www.example.com</code>. Multiple parameters can be added and separated using a comma.</p>";
+                  $website_url = get_site_url();
+
+                  $output_string = str_replace("https://www.example.com", $website_url, $example_string);
+
+                  echo $output_string;
+                  ?>
+                  <input type="text" name="<?php echo esc_attr( 'ultimatecrawloptimizer_allowed_url_params' ); ?>" id="<?php echo esc_attr( 'ultimatecrawloptimizer_allowed_url_params' ); ?>" value="<?php echo esc_attr( sanitize_text_field( get_option('ultimatecrawloptimizer_allowed_url_params') ) ); ?>" size="50" />
+                </th>
               </tr>
             </tbody>
           </table>

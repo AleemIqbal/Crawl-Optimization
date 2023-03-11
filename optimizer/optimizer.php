@@ -37,6 +37,7 @@ function ultimatecrawloptimizer_register_setting()
     ultimatecrawloptimizer_register_setting_group('ultimatecrawloptimizer_remove_emoji_scripts');
     ultimatecrawloptimizer_register_setting_group('ultimatecrawloptimizer_remove_wp_json_api');
 
+    ultimatecrawloptimizer_register_setting_group('ultimatecrawloptimizer_filter_search_terms');
     ultimatecrawloptimizer_register_setting_group('ultimatecrawloptimizer_max_search_characters');
     ultimatecrawloptimizer_register_setting_group('ultimatecrawloptimizer_filter_special_characters');
     ultimatecrawloptimizer_register_setting_group('ultimatecrawloptimizer_filter_spam_patterns');
@@ -44,4 +45,5 @@ function ultimatecrawloptimizer_register_setting()
     ultimatecrawloptimizer_register_setting_group('ultimatecrawloptimizer_prevent_internal_search_crawl');
     ultimatecrawloptimizer_register_setting_group('ultimatecrawloptimizer_optimize_ga_utm_params');
     ultimatecrawloptimizer_register_setting_group('ultimatecrawloptimizer_remove_unregistered_url_params');
+    ultimatecrawloptimizer_register_setting_group('ultimatecrawloptimizer_allowed_url_params');
 }
