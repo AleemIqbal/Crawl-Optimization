@@ -391,13 +391,9 @@ if ( ! current_user_can( 'manage_options' ) ) {
                 <th>
                   Additional URL parameters to allow
                   <?php
-                  $example_string = "<p>By adding specific URL parameters, this feature prevents them from being removed. For example, adding <code>example_parameter</code> will prevent the URL <code>https://www.example.com/?example_parameter=yes</code> from being redirected to <code>https://www.example.com</code>. Multiple parameters can be added and separated using a comma.</p>";
-                  $website_url = get_site_url();
-
-                  $output_string = str_replace("https://www.example.com", $website_url, $example_string);
-
-                  echo $output_string;
-                  ?>
+                  $html = '<p>By adding specific URL parameters, this feature prevents them from being removed. For example, adding <code>example_parameter</code> will prevent the URL <code>'.esc_url( home_url( '/?example_parameter=yes' ) ).'</code> from being redirected to <code>'.esc_url( home_url( '/' ) ).'</code>. Multiple parameters can be added and separated using a comma.</p>';
+                    echo wp_kses_post( $html );
+                    ?>
                   <input type="text" name="<?php echo esc_attr( 'ultimatecrawloptimizer_allowed_url_params' ); ?>" id="<?php echo esc_attr( 'ultimatecrawloptimizer_allowed_url_params' ); ?>" value="<?php echo esc_attr( sanitize_text_field( get_option('ultimatecrawloptimizer_allowed_url_params') ) ); ?>" size="50" />
                 </th>
               </tr>

@@ -4,7 +4,7 @@ Tags: google search console,crawler, crawl, seo,search engines
 Requires at least: 4.3
 Tested up to: 6.1.1
 Requires PHP: 5.2.4
-Stable tag: 1.2
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -144,6 +144,9 @@ This feature optimizes certain URL parameters to prevent them from being removed
 * Option to Additional URL Parameters to allow added
 * Jquery Removed
 
+== V 1.2.1 ==
+* Security Update
+
 == Upgrade Notice ==
 
 = 1.1 =
@@ -179,6 +182,9 @@ Feeds now redirect after disabling
 Remove all URL Parameters is now compatible with editors
 Option to Additional URL Parameters to allow added
 Jquery Removed
+
+= V 1.2.1 =
+Security Update
 
 == Installation ==
 
