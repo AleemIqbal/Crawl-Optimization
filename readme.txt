@@ -4,7 +4,7 @@ Tags: google search console,crawler, crawl, seo,search engines
 Requires at least: 4.3
 Tested up to: 6.1.1
 Requires PHP: 5.2.4
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -147,6 +147,9 @@ This feature optimizes certain URL parameters to prevent them from being removed
 == V 1.2.1 ==
 * Security Update
 
+== V 1.2.2 ==
+* Search Character Limit Bug Fixed
+
 == Upgrade Notice ==
 
 = 1.1 =
@@ -185,6 +188,9 @@ Jquery Removed
 
 = V 1.2.1 =
 Security Update
+
+= V 1.2.2 =
+Search Character Limit Bug Fixed
 
 == Installation ==
 

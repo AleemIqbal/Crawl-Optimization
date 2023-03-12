@@ -3,7 +3,7 @@
 Plugin Name: Crawl Optimization
 Plugin URI: https://www.bigtechies.com/
 Description: Plugin to Remove Garbage which wastes crawl budget
-Version: 1.2.1
+Version: 1.2.2
 Author: Big Techies
 Author URI: https://www.bigtechies.com/crawl-optimization-plugin/
 */
@@ -371,20 +371,16 @@ add_action('template_redirect', 'ultimatecrawloptimizer_search_redirect');
 add_action('init', 'ultimatecrawloptimizer_limit_search_characters');
 function ultimatecrawloptimizer_limit_search_characters()
 {
+    if (get_option('ultimatecrawloptimizer_filter_search_terms') == 1)
+    {
     if (isset($_GET['s']) && strlen($_GET['s']) > get_option('ultimatecrawloptimizer_max_search_characters'))
     {
         wp_redirect(home_url("?s=") . substr($_GET['s'], 0, get_option('ultimatecrawloptimizer_max_search_characters')));
         exit();
     }
 }
-
-function ultimatecrawloptimizer_max_search_char()
-{
-    if (get_option('ultimatecrawloptimizer_filter_search_terms') == 1)
-    {
-        add_option('ultimatecrawloptimizer_max_search_characters', 50);
-    }
 }
+add_option('ultimatecrawloptimizer_max_search_characters', 50);
 add_action('init', 'ultimatecrawloptimizer_max_search_char');
 function ultimatecrawloptimizer_redirect_utm_to_hash()
 {
