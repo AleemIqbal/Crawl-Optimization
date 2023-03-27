@@ -4,7 +4,7 @@ Tags: google search console,crawler, crawl, seo,search engines
 Requires at least: 4.3
 Tested up to: 6.1.1
 Requires PHP: 5.2.4
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -150,6 +150,9 @@ This feature optimizes certain URL parameters to prevent them from being removed
 == V 1.2.2 ==
 * Search Character Limit Bug Fixed
 
+== V 1.2.3 ==
+* Function Fixed
+
 == Upgrade Notice ==
 
 = 1.1 =
@@ -159,22 +162,22 @@ Redirect all parameters option is now disabled for non supported themes and buil
 = 1.1 =
 Redirect all parameters will no longer work with woocommerce
 
-= V 1.1.2 =
+= 1.1.2 =
 Added Settings Link on plugins page
 
-= V 1.1.3 =
+= 1.1.3 =
 Jquery Conflict causing editors to crash fixed
 
-= V 1.1.4 =
+= 1.1.4 =
 Emoji Filter and spam filter now also remove from url
 
-= V 1.1.5 =
+= 1.1.5 =
 Feed Bugs Resolved and More Secure
 
-= V 1.1.6 =
+= 1.1.6 =
 Removed Feed due to instability and it could cause SEO Issues
 
-= V 1.2.0 =
+= 1.2.0 =
 Plugin Completely Revamped by including more Features
 Shortlinks Redirect removed
 API Redirect Link removed
@@ -191,6 +194,9 @@ Security Update
 
 = V 1.2.2 =
 Search Character Limit Bug Fixed
+
+= V 1.2.3 =
+Function Fixed
 
 == Installation ==
 
