@@ -3,7 +3,7 @@
 Plugin Name: Crawl Optimization
 Plugin URI: https://www.bigtechies.com/
 Description: Plugin to Remove Garbage which wastes crawl budget
-Version: 1.2.3
+Version: 1.2.4
 Author: Big Techies
 Author URI: https://www.bigtechies.com/crawl-optimization-plugin/
 */
@@ -272,7 +272,7 @@ function ultimatecrawloptimizer_filter_search_special_chars()
 
 function remove_emojis_from_search_url($query)
 {
-    if ($query->is_search() && isset($_GET['s']))
+    if (!is_admin() && $query->is_search() && isset($_GET['s']))
     {
         $search_term = sanitize_text_field($_GET['s']);
         $emoji_regex = '/[\x{1F600}-\x{1F64F}\x{1F300}-\x{1F5FF}\x{1F680}-\x{1F6FF}\x{2600}-\x{26FF}\x{2700}-\x{27BF}\x{1F900}-\x{1F9FF}\x{1F1E0}-\x{1F1FF}]/u';
@@ -289,7 +289,7 @@ function remove_emojis_from_search_url($query)
 
 function remove_special_chars_from_search_url($query)
 {
-    if ($query->is_search() && isset($_GET['s']))
+    if (!is_admin() && $query->is_search() && isset($_GET['s']))
     {
         $search_term = sanitize_text_field($_GET['s']);
         $special_chars_regex = '/[^\p{L}\p{N}\s]/u';
@@ -314,7 +314,7 @@ function ultimatecrawloptimizer_filter_search_spam()
 
 function remove_spammy_words_from_search_url($query)
 {
-    if ($query->is_search() && isset($_GET['s']))
+    if (!is_admin() && $query->is_search() && isset($_GET['s']))
     {
         $search_term = sanitize_text_field($_GET['s']);
         $search_term = esc_html($search_term);
